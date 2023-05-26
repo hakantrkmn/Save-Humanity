@@ -1,56 +1,22 @@
-using UnityEngine;
+
 using System;
-using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 [Serializable]
-public struct TutorialPanels
+public struct PickerElement
 {
-    public TutorialTypes panelName;
-    public GameObject panelGameObject;
+    public EffectorTypes type;
+    public int amount;
+    [ShowIf("type", EffectorTypes.Turn)] public Directions direction;
 }
 
 
-#region Incremental Idle
 [Serializable]
-public class IncrementalIdleValues
+public struct Effector
 {
-    public int currentUpgradeLevel;
-    public float totalUpgradeGainValue;
-    public bool isMaximized;
-
-    public void ResetValues()
-    {
-        currentUpgradeLevel = 0;
-        totalUpgradeGainValue = 0;
-        isMaximized = false;
-    }
+    public EffectorTypes type;
+    public GameObject pickerPrefab;
+    public GameObject scenePrefab;
+    [ShowIf("type", EffectorTypes.Turn)] public Directions direction;
 }
-
-[Serializable]
-public class PriceHolderStruct
-{
-    public string name;
-    public List<PriceAnodValue> priceAndValueList = new List<PriceAnodValue>();
-
-    public PriceHolderStruct(string _name, int _length, int _multiplier)
-    {
-        name = _name;
-
-        for (int i = 0; i < _length; i++)
-            priceAndValueList.Add(new PriceAnodValue((i + 1) * _multiplier, (i + 1)));
-    }
-}
-
-[Serializable]
-public class PriceAnodValue
-{
-    public int requiredMoneyValue;
-    public float upgradeAmount;
-
-    public PriceAnodValue(int _requiredMoneyValue, float _upgradeAmount)
-    {
-        this.requiredMoneyValue = _requiredMoneyValue;
-        this.upgradeAmount = _upgradeAmount;
-    }
-}
-#endregion

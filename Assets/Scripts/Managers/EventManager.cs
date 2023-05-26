@@ -16,9 +16,14 @@ public static class EventManager
     public static Func<bool> IsPointerOverUI;
     #endregion
 
-  
+    public static Action<BaseHuman> HumanHitTheEnd;
+    public static Action<GameObject> PickerItemChoosed;
+    public static Action<GameObject> EffectorPlaced;
+    public static Action<GameObject> PickerItemAmountIsZero;
+    public static Action<Directions,EffectorTypes> EffectorClicked;
+    public static Action<BaseCollectable> CollectableHit;
+    public static Action<float> SetPercent;
 
- 
 
 
 }

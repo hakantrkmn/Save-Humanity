@@ -9,6 +9,7 @@ public class ScriptableManager : MonoBehaviour
 {
     [SerializeField] GameData gameData;
     [SerializeField] PlayerMovementSettings PlayerMovementSettings;
+    [SerializeField] EffectorHolder effectorHolder;
 
 
     //-------------------------------------------------------------------
@@ -18,11 +19,14 @@ public class ScriptableManager : MonoBehaviour
 
         Scriptable.GameData = GetGameData;
         Scriptable.PlayerSettings = GetPlayerMovementSettings;
+        Scriptable.EffectorHolder = GetEffectorHolder;
+
     }
 
 
     //-------------------------------------------------------------------
     GameData GetGameData() => gameData;
+    EffectorHolder GetEffectorHolder() => effectorHolder;
 
 
     //-------------------------------------------------------------------
@@ -36,4 +40,6 @@ public static class Scriptable
 {
     public static Func<GameData> GameData;
     public static Func<PlayerMovementSettings> PlayerSettings;
+    public static Func<EffectorHolder> EffectorHolder;
+
 }

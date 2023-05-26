@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2986f9dc7214d0ba5f050aff9f63f0, type: 3}
+  m_Name: EffectorHolder
+  m_EditorClassIdentifier: 
+  effectors:
+  - type: 0
+    pickerPrefab: {fileID: 2250469044582296240, guid: 93343a7da3f2e495e97ee2a28b7a60b7,
+      type: 3}
+    scenePrefab: {fileID: 7964663172050066994, guid: 6cac01f7471984417a1ec114bd319e7b,
+      type: 3}
+    direction: 0
+  - type: 0
+    pickerPrefab: {fileID: 2250469044582296240, guid: 2857c929004914797bc1b7c813171b0c,
+      type: 3}
+    scenePrefab: {fileID: 7964663172050066994, guid: e8669a69048344143af97f1ee2900832,
+      type: 3}
+    direction: 1
+  - type: 0
+    pickerPrefab: {fileID: 2250469044582296240, guid: f361c82a8e9db49a79136554548d9769,
+      type: 3}
+    scenePrefab: {fileID: 7964663172050066994, guid: 71bed60c376024b0ca36421ee5f2dee5,
+      type: 3}
+    direction: 2
+  - type: 0
+    pickerPrefab: {fileID: 2250469044582296240, guid: fb352a77f1db94898ad3fe97298a708f,
+      type: 3}
+    scenePrefab: {fileID: 7964663172050066994, guid: 1b72076d2cd5748239a348cd18372d02,
+      type: 3}
+    direction: 3
+  - type: 1
+    pickerPrefab: {fileID: 2250469044582296240, guid: 9bc22ac6f32264701b6ad6d00831f64d,
+      type: 3}
+    scenePrefab: {fileID: 1402138929833104314, guid: 7713e6c9f57c3498eb12c9304d6fdfb0,
+      type: 3}
+    direction: 0
