@@ -12,16 +12,26 @@ public abstract class BaseHuman : MonoBehaviour
     public float walkSpeed;
     public Renderer renderer;
     public Rigidbody rb;
-    public Animator animator;
+    //public Animator animator;
     public bool canWalk;
     public List<GameObject> climbedWalls;
-
+    public Transform model;
     protected virtual void Walk()
     {
         if (state == HumanStates.WalkingOnGround || state == HumanStates.WalkingOnWall)
         {
-            rb.velocity = walkDirection * walkSpeed;
+            if (rb.velocity.magnitude<4)
+            {
+                rb.AddForce(walkDirection*10);
+
+            }
+            
         }
+    }
+
+    private void Start()
+    {
+        model.DOScale(1.5f,.2f).SetLoops(-1,LoopType.Yoyo);
     }
 
 
@@ -31,6 +41,7 @@ public abstract class BaseHuman : MonoBehaviour
         renderer.material.color = Random.ColorHSV();
         walkDirection = transform.parent.forward;
         transform.forward = walkDirection;
+        state = HumanStates.WalkingOnGround;
     }
 
     protected virtual void Update()
@@ -45,7 +56,6 @@ public abstract class BaseHuman : MonoBehaviour
     {
         if (other.GetComponent<TurnEffector>())
         {
-            Debug.Log("ksdnfşlknsd");
             TurnByDirection(other.GetComponent<TurnEffector>().direction);
         }
         else if (other.GetComponent<JumpEffector>())
@@ -85,7 +95,7 @@ public abstract class BaseHuman : MonoBehaviour
         state = HumanStates.OnAir;
         //rb.velocity = Vector3.zero;
         rb.AddForce((Vector3.up * power) , ForceMode.Impulse);
-        animator.SetBool("fall", true);
+        //animator.SetBool("fall", true);
     }
 
     void GoToHeaven(Vector3 middlePoint)
@@ -96,12 +106,12 @@ public abstract class BaseHuman : MonoBehaviour
         transform.DOMoveX(point.x, 1f);
         transform.DOMoveZ(point.z, 1f);
         transform.DOMoveY(30, 5);
-        animator.SetTrigger("rise");
+        //animator.SetTrigger("rise");
     }
 
     void FallFromGround()
     {
-        animator.SetBool("fall", true);
+        //animator.SetBool("fall", true);
         rb.isKinematic = false;
         canWalk = false;
     }
@@ -123,7 +133,7 @@ public abstract class BaseHuman : MonoBehaviour
 
     void FallFromWall()
     {
-        animator.SetBool("fall", true);
+       // animator.SetBool("fall", true);
         state = HumanStates.OnAir;
     }
 
@@ -131,23 +141,17 @@ public abstract class BaseHuman : MonoBehaviour
     {
         state = HumanStates.ClimbingWall;
         climbedWalls.Add(wall);
-        animator.SetBool("climb", true);
-        animator.SetBool("fall", false);
+        //animator.SetBool("climb", true);
+        //animator.SetBool("fall", false);
         rb.isKinematic = true;
-        transform.DOMoveY(wall.transform.GetComponent<ClimbableWall>().climbPoint.position.y - .85f, 1f)
+        transform.DOMoveY(wall.transform.GetComponent<ClimbableWall>().climbPoint.position.y, 1f)
             .OnComplete(
                 () =>
                 {
-                    animator.SetTrigger("climbUp");
-
-                    transform.DOMoveY(wall.transform.GetComponent<ClimbableWall>().climbPoint.position.y,
-                        .95f);
-                    DOVirtual.Float(0, 1, .95f, (x) => { }).OnComplete(() =>
-                    {
-                        animator.SetBool("climb", false);
-                        state = HumanStates.WalkingOnWall;
-                        rb.isKinematic = false;
-                    });
+                    state = HumanStates.WalkingOnWall;
+                    rb.isKinematic = false;
+                    //animator.SetTrigger("climbUp");
+                    
                 });
     }
 
@@ -155,10 +159,16 @@ public abstract class BaseHuman : MonoBehaviour
     {
         if (collision.transform.CompareTag("Ground"))
         {
-            if (state == HumanStates.OnAir)
+            if (state == HumanStates.OnAir && collision.contacts[0].normal.y==1)
             {
-                animator.SetBool("fall", false);
+                Debug.Log(collision.contacts[0].normal.y);
+                //animator.SetBool("fall", false);
                 state = HumanStates.WalkingOnGround;
+            }
+            else if (collision.contacts[0].normal.y!=1)
+            {
+                state = HumanStates.Falling;
+
             }
         }
 

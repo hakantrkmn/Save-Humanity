@@ -24,6 +24,8 @@ public static class EventManager
     public static Action<BaseCollectable> CollectableHit;
     public static Action<float> SetPercent;
 
+    public static Func<BaseHuman> GetHumanFromPool;
+
 
 
 }

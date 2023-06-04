@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1402138929833104318}
   - component: {fileID: 1402138929833104305}
   - component: {fileID: 1402138929833104270}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: JumpEffector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 1402138930763099782}
   - component: {fileID: 1402138930763099783}
   - component: {fileID: 1402138930763099780}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 1402138931088267093}
   - component: {fileID: 1402138931088267095}
   - component: {fileID: 1402138931088267092}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1402138931788131487}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}

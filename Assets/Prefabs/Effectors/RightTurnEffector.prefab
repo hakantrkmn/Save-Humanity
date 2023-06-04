@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7964663170656623325}
   - component: {fileID: 7964663170656623327}
   - component: {fileID: 7964663170656623324}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7964663171303006487}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 7964663172050066998}
   - component: {fileID: 7964663172050067000}
   - component: {fileID: 7964663172050067001}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightTurnEffector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 7964663172462125838}
   - component: {fileID: 7964663172462125839}
   - component: {fileID: 7964663172462125836}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

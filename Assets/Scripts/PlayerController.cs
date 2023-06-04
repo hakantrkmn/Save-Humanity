@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        layer_mask = LayerMask.GetMask("Ground");
+        layer_mask = LayerMask.GetMask("Ground","Effector");
     }
 
     private void Update()
@@ -41,12 +41,17 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer_mask))
             {
+                if (hit.transform.CompareTag("Ground"))
+                {
+                    
                 var effector = Instantiate(currentEffector, hit.point, currentEffector.transform.rotation);
                 effector.transform.rotation =Quaternion.Euler(effector.transform.rotation.eulerAngles.x,
                     effector.transform.rotation.eulerAngles.y + Camera.main.transform.rotation.eulerAngles.y,
                     effector.transform.rotation.eulerAngles.z);
                 effector.GetComponent<BaseEffector>().EffectorPlaced();
                 EventManager.EffectorPlaced(currentEffector);
+                }
+
             }
         }
     }
