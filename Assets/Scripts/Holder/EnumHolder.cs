@@ -13,3 +13,12 @@ public enum Directions
     Down,
     Forward
 }
+
+public enum HumanStates
+{
+    WalkingOnGround,
+    ClimbingWall,
+    WalkingOnWall,
+    OnAir,
+    GoingToHeaven,
+}
