@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,5 +10,10 @@ public abstract  class BaseEffector : MonoBehaviour,IClickable
     public virtual void OnMouseDown()
     {
         Destroy(gameObject);
+    }
+    
+
+    public virtual void EffectorPlaced()
+    {
     }
 }

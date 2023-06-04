@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 7964663172050067001}
   m_Layer: 0
   m_Name: RightTurnEffector
-  m_TagString: End
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  directionType: 0
+  directionType: 1
   direction: {x: 1.0000001, y: 0, z: -0.00000011920929}
   arrowImage: {fileID: 7964663171303006487}
 --- !u!65 &7964663172050067001

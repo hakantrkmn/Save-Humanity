@@ -13,10 +13,8 @@ public abstract class BaseHuman : MonoBehaviour
     public Renderer renderer;
     public Rigidbody rb;
     public Animator animator;
-    public bool onAir;
     public bool canWalk;
     public List<GameObject> climbedWalls;
-    private bool onWall;
 
     protected virtual void Walk()
     {
@@ -24,7 +22,6 @@ public abstract class BaseHuman : MonoBehaviour
         {
             rb.velocity = walkDirection * walkSpeed;
         }
-        //transform.position += walkDirection * Time.deltaTime * walkSpeed;
     }
 
 
@@ -48,18 +45,12 @@ public abstract class BaseHuman : MonoBehaviour
     {
         if (other.GetComponent<TurnEffector>())
         {
-            DOVirtual.Vector3(walkDirection, other.GetComponent<TurnEffector>().direction, .5f, (value =>
-            {
-                walkDirection = value;
-                transform.forward = walkDirection;
-            }));
+            Debug.Log("ksdnfşlknsd");
+            TurnByDirection(other.GetComponent<TurnEffector>().direction);
         }
         else if (other.GetComponent<JumpEffector>())
         {
-            state = HumanStates.OnAir;
-
-            rb.AddForce(Vector3.up * other.GetComponent<JumpEffector>().jumpPower, ForceMode.Impulse);
-            animator.SetBool("fall", true);
+            Jump(other.GetComponent<JumpEffector>().jumpPower);
         }
         else if (other.GetComponent<FallLimit>())
         {
@@ -67,13 +58,7 @@ public abstract class BaseHuman : MonoBehaviour
         }
         else if (other.GetComponent<End>())
         {
-            state = HumanStates.GoingToHeaven;
-            rb.isKinematic = true;
-            var point = other.transform.position + Random.insideUnitSphere*.3f;
-            transform.DOMoveX(point.x, 1f);
-            transform.DOMoveZ(point.z, 1f);
-
-            transform.DOMoveY(30, 5);
+            GoToHeaven(other.transform.position);
         }
         else if (other.GetComponent<BaseCollectable>())
         {
@@ -81,27 +66,89 @@ public abstract class BaseHuman : MonoBehaviour
         }
         else if (other.transform.CompareTag("Fall"))
         {
-            animator.SetBool("fall", true);
-                rb.isKinematic = false;
-                canWalk = false;
             
+            FallFromGround();
         }
+    }
+
+    void TurnByDirection(Vector3 direction)
+    {
+        DOVirtual.Vector3(walkDirection, direction, Random.Range(.1f,.5f), (value =>
+        {
+            walkDirection = value;
+            transform.forward = walkDirection;
+        }));
+    }
+
+    void Jump(float power)
+    {
+        state = HumanStates.OnAir;
+        //rb.velocity = Vector3.zero;
+        rb.AddForce((Vector3.up * power) , ForceMode.Impulse);
+        animator.SetBool("fall", true);
+    }
+
+    void GoToHeaven(Vector3 middlePoint)
+    {
+        state = HumanStates.GoingToHeaven;
+        rb.isKinematic = true;
+        var point = middlePoint + Random.insideUnitSphere*.3f;
+        transform.DOMoveX(point.x, 1f);
+        transform.DOMoveZ(point.z, 1f);
+        transform.DOMoveY(30, 5);
+        animator.SetTrigger("rise");
+    }
+
+    void FallFromGround()
+    {
+        animator.SetBool("fall", true);
+        rb.isKinematic = false;
+        canWalk = false;
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.transform.GetComponent<ClimbableWall>() && climbedWalls.Contains(collision.gameObject))
+        if (collision.transform.GetComponent<ClimbableWall>())
         {
             if (state==HumanStates.WalkingOnWall)
             {
-                animator.SetBool("fall", true);
-                state = HumanStates.OnAir;
+                FallFromWall();
             }
             
         }
 
         
         
+    }
+
+    void FallFromWall()
+    {
+        animator.SetBool("fall", true);
+        state = HumanStates.OnAir;
+    }
+
+    void ClimbWall(GameObject wall)
+    {
+        state = HumanStates.ClimbingWall;
+        climbedWalls.Add(wall);
+        animator.SetBool("climb", true);
+        animator.SetBool("fall", false);
+        rb.isKinematic = true;
+        transform.DOMoveY(wall.transform.GetComponent<ClimbableWall>().climbPoint.position.y - .85f, 1f)
+            .OnComplete(
+                () =>
+                {
+                    animator.SetTrigger("climbUp");
+
+                    transform.DOMoveY(wall.transform.GetComponent<ClimbableWall>().climbPoint.position.y,
+                        .95f);
+                    DOVirtual.Float(0, 1, .95f, (x) => { }).OnComplete(() =>
+                    {
+                        animator.SetBool("climb", false);
+                        state = HumanStates.WalkingOnWall;
+                        rb.isKinematic = false;
+                    });
+                });
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -115,28 +162,9 @@ public abstract class BaseHuman : MonoBehaviour
             }
         }
 
-        if (collision.transform.GetComponent<ClimbableWall>() && !climbedWalls.Contains(collision.gameObject))
+        if (collision.transform.GetComponent<ClimbableWall>() && state!= HumanStates.WalkingOnWall)
         {
-            state = HumanStates.ClimbingWall;
-            climbedWalls.Add(collision.gameObject);
-            animator.SetBool("climb", true);
-            animator.SetBool("fall", false);
-            rb.isKinematic = true;
-            transform.DOMoveY(collision.transform.GetComponent<ClimbableWall>().climbPoint.position.y - .85f, 1f)
-                .OnComplete(
-                    () =>
-                    {
-                        animator.SetTrigger("climbUp");
-
-                        transform.DOMoveY(collision.transform.GetComponent<ClimbableWall>().climbPoint.position.y,
-                            .95f);
-                        DOVirtual.Float(0, 1, .95f, (x) => { }).OnComplete(() =>
-                        {
-                            animator.SetBool("climb", false);
-                            state = HumanStates.WalkingOnWall;
-                            rb.isKinematic = false;
-                        });
-                    });
+           ClimbWall(collision.gameObject);
         }
     }
 }

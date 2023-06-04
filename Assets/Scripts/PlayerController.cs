@@ -12,13 +12,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.PickerItemAmountIsZero += obj => { if (obj == currentEffector) currentEffector = null; };
+        EventManager.PickerItemAmountIsZero += obj =>
+        {
+            if (obj == currentEffector) currentEffector = null;
+        };
         EventManager.PickerItemChoosed += obj => currentEffector = obj;
     }
 
     private void OnDisable()
     {
-        EventManager.PickerItemAmountIsZero -= obj => { if (obj == currentEffector) currentEffector = null; };
+        EventManager.PickerItemAmountIsZero -= obj =>
+        {
+            if (obj == currentEffector) currentEffector = null;
+        };
         EventManager.PickerItemChoosed -= obj => currentEffector = obj;
     }
 
@@ -29,18 +35,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)&&currentEffector!=null)
+        if (Input.GetMouseButtonDown(0) && currentEffector != null)
         {
-            Debug.Log("tselnk");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast (ray, out hit,Mathf.Infinity,layer_mask))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer_mask))
             {
-                Debug.Log("Çarpmıyor");
-                Instantiate(currentEffector, hit.point, currentEffector.transform.rotation);
+                var effector = Instantiate(currentEffector, hit.point, currentEffector.transform.rotation);
+                effector.transform.rotation =Quaternion.Euler(effector.transform.rotation.eulerAngles.x,
+                    effector.transform.rotation.eulerAngles.y + Camera.main.transform.rotation.eulerAngles.y,
+                    effector.transform.rotation.eulerAngles.z);
+                effector.GetComponent<BaseEffector>().EffectorPlaced();
                 EventManager.EffectorPlaced(currentEffector);
-
-            }   
+            }
         }
     }
 }

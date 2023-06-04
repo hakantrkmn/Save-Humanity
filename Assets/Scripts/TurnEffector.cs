@@ -10,7 +10,14 @@ public class TurnEffector : BaseEffector
    public Vector3 direction;
    public Transform arrowImage;
 
-   private void OnValidate()
+   public override void EffectorPlaced()
+   {
+
+         UpdateDirection();
+      
+   }
+
+   public void UpdateDirection()
    {
       direction = transform.forward;
       arrowImage.forward = direction;

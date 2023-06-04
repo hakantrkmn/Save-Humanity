@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 7964663172050067001}
   m_Layer: 0
   m_Name: DownTurnEffector
-  m_TagString: End
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  directionType: 0
+  directionType: 2
   direction: {x: 0, y: 0, z: -1}
   arrowImage: {fileID: 7964663171303006487}
 --- !u!65 &7964663172050067001
